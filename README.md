@@ -2,4 +2,8 @@
 
 今までの活動についてまとめたwebサイト・ポートフォリオ公開用のレポジトリです。
 
-https://hayatohak.github.io/ にて公開しています。
+html,cssの勉強も兼ねています。
+
+[ここをクリック](https://hayatohak.github.io/) 
+
+上のサイトにて公開しています(まだ編集途中)。
