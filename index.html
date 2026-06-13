@@ -1,84 +1,372 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magu | Portfolio</title>
-    <link rel="stylesheet" href="base.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FCFBF8;
+    --ink:#3A3733;
+    --ink-soft:#6B665E;
+    --ink-faint:#9C968B;
+    --teal:#5B9AA0;
+    --teal-deep:#477B81;
+    --teal-wash:#EAF2F1;
+    --peach:#E8A07A;
+    --card:#FFFFFF;
+    --line:#EDE8DE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Noto Sans JP",system-ui,sans-serif;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:0 26px}
+  a{color:inherit}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:96px 0 70px}
+  .hello{
+    font-size:14px;letter-spacing:.08em;color:var(--teal-deep);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-weight:900;
+    font-size:clamp(28px,5.4vw,46px);
+    line-height:1.4;
+    letter-spacing:.01em;
+    margin-bottom:24px;
+  }
+  .hero h1 .accent{color:var(--teal-deep)}
+  .hero p{font-size:16px;color:var(--ink-soft);max-width:56ch}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:30px}
+  .chip{
+    font-size:12.5px;color:var(--teal-deep);background:var(--teal-wash);
+    border-radius:999px;padding:5px 14px;
+  }
+
+  /* ---------- SECTION COMMON ---------- */
+  .section{padding:56px 0}
+  .label{
+    font-size:13px;letter-spacing:.1em;color:var(--ink-faint);
+    margin-bottom:8px;
+  }
+  .h2{font-weight:900;font-size:clamp(22px,3.6vw,30px);margin-bottom:6px}
+  .h2-note{font-size:14.5px;color:var(--ink-soft);max-width:52ch;margin-bottom:34px}
+
+  /* ---------- FEATURE WORK ---------- */
+  .feature{
+    border-radius:22px;background:var(--card);
+    box-shadow:0 6px 30px rgba(90,154,160,.10);overflow:hidden;
+  }
+  .feature-top{display:grid;grid-template-columns:1.05fr 1fr}
+  @media(max-width:760px){.feature-top{grid-template-columns:1fr}}
+  .feature-text{padding:40px 38px 36px}
+  .tag-row{display:flex;gap:8px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
+  .pill{font-size:12px;color:var(--teal-deep);background:var(--teal-wash);border-radius:999px;padding:4px 13px}
+  .meta{font-size:12.5px;color:var(--ink-faint)}
+  .work-name{font-weight:900;font-size:27px;line-height:1.35;margin-bottom:4px}
+  .work-en{color:var(--ink-faint);font-size:14px;margin-bottom:20px}
+  .concept{font-size:15.5px;color:var(--ink-soft);margin-bottom:24px}
+  .concept b{color:var(--ink);font-weight:700}
+  .arrowline{
+    display:inline-flex;align-items:center;gap:12px;font-size:16px;font-weight:700;
+    background:#FBF1EA;border-radius:14px;padding:10px 18px;
+  }
+  .arrowline .from{color:var(--ink-faint)}
+  .arrowline .ar,.arrowline .to{color:var(--peach)}
+  .feature-visual{
+    background:linear-gradient(165deg,#EDF4F3,#DDEBEA);
+    padding:34px 30px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .vis-label{color:var(--teal-deep);font-size:12.5px;letter-spacing:.08em;margin-bottom:18px}
+  .flow{display:flex;flex-direction:column}
+  .step{display:flex;gap:13px;align-items:flex-start;position:relative;padding-bottom:18px}
+  .step:last-child{padding-bottom:0}
+  .dot{flex:none;width:12px;height:12px;border-radius:50%;background:var(--teal);margin-top:5px;position:relative;z-index:1;box-shadow:0 0 0 4px rgba(91,154,160,.16)}
+  .step:not(:last-child) .dot::after{content:"";position:absolute;left:50%;top:12px;transform:translateX(-50%);width:2px;height:calc(100% + 18px);background:rgba(91,154,160,.30)}
+  .step .s-t{color:var(--ink);font-size:13.5px;font-weight:700}
+  .step .s-d{color:var(--ink-soft);font-size:12.5px;line-height:1.65}
+  .step .s-d code{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--teal-deep);background:rgba(255,255,255,.7);padding:1px 5px;border-radius:4px}
+  .stack{border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr)}
+  @media(max-width:600px){.stack{grid-template-columns:repeat(2,1fr)}}
+  .stack div{padding:18px 22px;border-right:1px solid var(--line)}
+  .stack div:last-child{border-right:none}
+  @media(max-width:600px){.stack div:nth-child(2){border-right:none}.stack div:nth-child(1),.stack div:nth-child(2){border-bottom:1px solid var(--line)}}
+  .stack .k{font-size:11px;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:5px}
+  .stack .v{font-size:13.5px;color:var(--ink);font-weight:500;line-height:1.5}
+
+  /* ---------- SUB WORKS ---------- */
+  .sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+  @media(max-width:680px){.sub-grid{grid-template-columns:1fr}}
+  .sub{border-radius:18px;background:var(--card);box-shadow:0 4px 20px rgba(90,154,160,.08);padding:26px 26px 24px}
+  .sub .pill{margin-bottom:14px;display:inline-block}
+  .sub h3{font-size:18px;font-weight:900;margin-bottom:8px}
+  .sub p{font-size:14px;color:var(--ink-soft)}
+  .sub .smeta{font-size:12px;color:var(--ink-faint);margin-top:12px}
+
+  /* ---------- SKILLS ---------- */
+  .skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:680px){.skill-grid{grid-template-columns:1fr}}
+  .skill{background:var(--card);border-radius:18px;box-shadow:0 4px 20px rgba(90,154,160,.08);padding:26px 28px}
+  .skill h3{font-size:15px;font-weight:700;color:var(--teal-deep);margin-bottom:14px}
+  .skill ul{list-style:none}
+  .skill li{font-size:14px;color:var(--ink-soft);padding:5px 0;border-bottom:1px dashed var(--line)}
+  .skill li:last-child{border-bottom:none}
+  .skill li b{color:var(--ink);font-weight:700}
+  .cred{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+  .cred .chip{background:#FBF1EA;color:#B5704A}
+
+  /* ---------- ACTIVITY ---------- */
+  .act{display:flex;flex-direction:column;gap:16px}
+  .act-item{background:var(--card);border-radius:18px;box-shadow:0 4px 20px rgba(90,154,160,.07);padding:24px 28px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start}
+  @media(max-width:600px){.act-item{grid-template-columns:1fr;gap:8px}}
+  .act-role{font-size:13px;color:var(--teal-deep);font-weight:700;white-space:nowrap}
+  .act-body h3{font-size:16px;font-weight:700;margin-bottom:6px}
+  .act-body p{font-size:14px;color:var(--ink-soft)}
+
+  /* ---------- CONTACT ---------- */
+  .contact{
+    background:var(--teal-wash);border-radius:22px;
+    padding:44px 38px;text-align:center;margin-bottom:90px;
+  }
+  .contact h2{font-size:22px;font-weight:900;margin-bottom:10px}
+  .contact p{font-size:14.5px;color:var(--ink-soft);margin-bottom:22px}
+  .btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{
+    font-size:14px;font-weight:700;padding:11px 26px;border-radius:999px;
+    text-decoration:none;display:inline-block;
+  }
+  .btn-fill{background:var(--teal-deep);color:#fff}
+  .btn-ghost{background:#fff;color:var(--teal-deep);box-shadow:inset 0 0 0 1.5px var(--teal)}
+  .soon{font-size:12px;color:var(--ink-faint);margin-top:16px}
+
+  footer{text-align:center;padding:30px 0 50px;font-size:12px;color:var(--ink-faint)}
+
+  /* editor note */
+  .note-band{background:var(--teal-wash);border-radius:16px;padding:16px 20px;margin:30px 0 0;font-size:13px;color:var(--ink-soft)}
+  .note-band b{color:var(--teal-deep)}
+</style>
 </head>
 <body>
+<div class="wrap">
 
-<main>
-    <header>
-        <h1>MAGU</h1>
-    </header>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hello">Portfolio</div>
+    <h1>明石高専で情報を学び、<br><span class="accent">作って試すこと</span>を続けています。</h1>
+    <p>情報コースで制御工学を専攻しています。授業や学園祭をきっかけに、Webアプリ・ゲーム・制御シミュレーションなど、領域をまたいで手を動かしてきました。理解が追いつくまで自分の言葉で説明できるようにしたい、という気持ちで取り組んでいます。</p>
+    <div class="chips">
+      <span class="chip">Web / JavaScript</span>
+      <span class="chip">Python / Flask</span>
+      <span class="chip">Gemini API</span>
+      <span class="chip">Unity / C#</span>
+      <span class="chip">制御工学 / MATLAB</span>
+      <span class="chip">チーム開発・運営</span>
+    </div>
+  </header>
 
-    <section id="about">
-        <h2>About</h2>
-        <p>明石工業高等専門学校 電気情報工学科（情報コース）4年。専門は<span class="highlight">制御工学</span>。</p>
-        <p>「効率化」と「クリエイティブ」を軸に、学生会活動から3D制作まで幅広く活動しています。ニックネームの「まぐ」は名字に由来します。</p>
-        <img src="reo.jpg" alt="Profile Icon" style="max-width: 150px; border-radius: 50%;">
-    </section>
+  <!-- WORKS -->
+  <section class="section">
+    <div class="label">WORKS</div>
+    <div class="h2">制作物</div>
+    <p class="h2-note">いま力を入れているのは、学校で実際に使うことを目指した安否確認システムです。チームで設計から本番公開まで取り組んでいます。</p>
 
-    <section id="credentials">
-        <h2>Credentials</h2>
-        <table>
-            <tr><td>TOEIC</td><td>860</td></tr>
-            <tr><td>FE</td><td>基本情報技術者</td></tr>
-            <tr><td>SG</td><td>情報セキュリティマネジメント</td></tr>
-            <tr><td>IP</td><td>ITパスポート</td></tr>
-            <tr><td>MATH</td><td>数学検定2級</td></tr>
-            <tr><td>License</td><td>普通自動車免許(AT限)</td></tr>
-        </table>
-    </section>
-
-    <section id="experience">
-        <h2>Activities</h2>
-        
-        <h3>学生会執行部 文化局長</h3>
-        <p>令和6年度「明葉祭」の企画・運営リーダーを担当。市役所とのポスター掲示交渉や各団体調整など、組織運営の基盤を担いました。</p>
-
-        <h3>高専祭実行委員会 シフト管理</h3>
-        <p>90人規模のシフト作成・管理を担当。単なる事務作業ではなく、現場の状況に合わせた動線の最適化と効率化を追求しました。</p>
-
-        <h3>プロジェクト支援 (万博・Fes)</h3>
-        <p>クラスメイトの万博プロジェクト（発電靴）での技術アドバイスや、小中学生向けイベントでの公開授業アシスタントなど、技術の普及・支援活動を行っています。</p>
-
-        <h3>クラス委員長</h3>
-        <p>連絡事項のデジタル周知など、身近な範囲でのDXを推進し、組織の時短と円滑な運営に貢献しています。</p>
-    </section>
-
-    <section id="creative">
-        <h2>Creative</h2>
-        <p>Blenderを用いた3D制作。推しキャラ（ヘルタ）への情熱を制作の原動力としています。</p>
-        <video controls src="kozitsu_logo_animation_2.mp4"></video>
-        <p>Favorite: PSYQUI</p>
-    </section>
-
-    <section class="form-area">
-        <h2>Input Practice</h2>
-        <div>
-            <label>Name</label>
-            <input type="text" placeholder="Entry name...">
+    <article class="feature">
+      <div class="feature-top">
+        <div class="feature-text">
+          <div class="tag-row">
+            <span class="pill">Webアプリ</span>
+            <span class="pill">Python / Flask</span>
+            <span class="meta">4人チーム ・ 開発中 ・ 学校での導入を想定</span>
+          </div>
+          <h2 class="work-name">AnpiLink（きずなネット）</h2>
+          <div class="work-en">明石高専の安否確認・連絡網システム</div>
+          <p class="concept">災害時などに、学校が学生・保護者へ安否確認や連絡を一斉に送り、回答を集計できるWebアプリです。先生から「実際に使いたい」と言っていただき、<b>ウォーターフォールで設計から本番公開まで</b>進めています。自分は<b>全工程に関わり、実装を中心に</b>担当しています。</p>
+          <div class="arrowline">
+            <span class="from">設計</span>
+            <span class="ar">→</span>
+            <span class="from">実装</span>
+            <span class="ar">→</span>
+            <span class="to">本番公開（HTTPS）</span>
+          </div>
         </div>
-        <div>
-            <label>Selection</label>
-            <select>
-                <option>Tkinter</option>
-                <option>Flask</option>
-                <option>PyCharm</option>
-            </select>
+        <div class="feature-visual">
+          <div class="vis-label">取り組んだこと</div>
+          <div class="flow">
+            <div class="step"><span class="dot"></span><div><div class="s-t">役割で分けた設計</div><div class="s-d">画面・処理・データ操作を層で分け、責務を整理</div></div></div>
+            <div class="step"><span class="dot"></span><div><div class="s-t">3種類の利用者に対応</div><div class="s-d">管理者・学生・保護者で見える画面と権限を分ける</div></div></div>
+            <div class="step"><span class="dot"></span><div><div class="s-t">セキュリティを意識</div><div class="s-d">パスワードの暗号化・CSRF対策・監査ログなど</div></div></div>
+            <div class="step"><span class="dot"></span><div><div class="s-t">本番サーバへ公開</div><div class="s-d">クラウド上にHTTPSで公開し、実運用を見据える</div></div></div>
+          </div>
         </div>
-        <input type="button" value="SUBMIT">
-    </section>
+      </div>
+      <div class="stack">
+        <div><div class="k">言語・FW</div><div class="v">Python / Flask</div></div>
+        <div><div class="k">DB</div><div class="v">PostgreSQL</div></div>
+        <div><div class="k">インフラ</div><div class="v">クラウド / Nginx<br>Gunicorn / HTTPS</div></div>
+        <div><div class="k">体制</div><div class="v">4人チーム<br>ウォーターフォール</div></div>
+      </div>
+    </article>
 
-    <footer>
-        <a href="https://x.com/azusa812y" class="x-link" target="_blank">
-            <img src="logo-black.png" alt="X">
-        </a>
-        <p class="footer_name">Magu | Akashi College</p>
-    </footer>
-</main>
+    <article class="feature" style="margin-top:30px">
+      <div class="feature-top">
+        <div class="feature-text">
+          <div class="tag-row">
+            <span class="pill">Webアプリ</span>
+            <span class="pill">Gemini API</span>
+            <span class="meta">ひとりで ・ 約2週間 ・ 学内プロコン</span>
+          </div>
+          <h2 class="work-name">学生アイドルマスター</h2>
+          <div class="work-en">The Idle M@ster — Akashi Kosen</div>
+          <p class="concept">目標を入れると、AIプロデューサーが自分の活動データを見て「次になにをすればいいか」を提案してくれるアプリです。<b>怠け者（Idle）から、なりたい自分（Idol）へ。</b>という願いをコンセプトにしました。</p>
+          <div class="arrowline">
+            <span class="from">IDLE（怠け者）</span>
+            <span class="ar">→</span>
+            <span class="to">IDOL（なりたい自分）</span>
+          </div>
+        </div>
+        <div class="feature-visual">
+          <div class="vis-label">AIが提案するまで</div>
+          <div class="flow">
+            <div class="step"><span class="dot"></span><div><div class="s-t">活動データを集める</div><div class="s-d"><code>localStorage</code> から目標・タスク・日記を取り出す</div></div></div>
+            <div class="step"><span class="dot"></span><div><div class="s-t">AIが読める形に整える</div><div class="s-d">そのまま渡さず、状況がわかる文章に組み直す</div></div></div>
+            <div class="step"><span class="dot"></span><div><div class="s-t">サーバ越しに渡す</div><div class="s-d"><code>api.php</code> がキーを隠してGemini APIへ橋渡し</div></div></div>
+            <div class="step"><span class="dot"></span><div><div class="s-t">提案をそのままタスクに</div><div class="s-d">返ってきた提案を、押すだけでタスクに追加</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="stack">
+        <div><div class="k">フロント</div><div class="v">Vanilla JS / HTML / CSS / Chart.js</div></div>
+        <div><div class="k">サーバ</div><div class="v">PHP（キーを隠す橋渡し役）</div></div>
+        <div><div class="k">AI</div><div class="v">Google Gemini API<br>(gemini-2.5-flash)</div></div>
+        <div><div class="k">データ</div><div class="v">localStorage<br>（ブラウザに保存）</div></div>
+      </div>
+    </article>
 
+    <div class="sub-grid">
+      <div class="sub">
+        <span class="pill">Unity / C#</span>
+        <h3>高専Lovers</h3>
+        <p>学園祭のクラス展示でつくった恋愛ギャグゲー。制限時間内に会話で好感度を上げる仕組みを、発案と開発のお手伝いで担当しました。</p>
+        <div class="smeta">チームでつくった ・ 高専祭の展示</div>
+      </div>
+      <div class="sub">
+        <span class="pill">Unity / C#</span>
+        <h3>高専カードゲーム</h3>
+        <p>高専ならではの概念をカードにして、オンラインで対戦できるようにしたゲーム。こちらも開発のお手伝いで関わりました。</p>
+        <div class="smeta">チームでつくった ・ 高専祭の展示</div>
+      </div>
+      <div class="sub">
+        <span class="pill">MATLAB / 制御工学</span>
+        <h3>AGVの制御くらべ</h3>
+        <p>荷物で重さが変わる搬送車で、ふつうの制御とLQR制御を比べた研究。先生の論文をもとに、工場をイメージしてシミュレーションしました。</p>
+        <div class="smeta">研究課題 ・ 工場での搬送を想定</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section">
+    <div class="label">SKILLS</div>
+    <div class="h2">できること</div>
+    <p class="h2-note">「使ったことがある」と「いま勉強中」を、正直に分けて書いています。</p>
+    <div class="skill-grid">
+      <div class="skill">
+        <h3>つくる</h3>
+        <ul>
+          <li><b>JavaScript / HTML / CSS</b> ・ Webアプリの実装</li>
+          <li><b>Python / Flask</b> ・ チーム開発でのWebアプリ実装</li>
+          <li><b>PostgreSQL</b> ・ テーブル設計とデータ操作</li>
+          <li><b>PHP</b> ・ APIキーを隠すサーバ側の橋渡し</li>
+          <li><b>Gemini API</b> ・ アプリへのAI機能の組み込み</li>
+          <li><b>Unity / C#</b> ・ ゲーム開発のお手伝い</li>
+          <li><b>MATLAB</b> ・ 制御シミュレーション</li>
+        </ul>
+      </div>
+      <div class="skill">
+        <h3>学んでいること・土台</h3>
+        <ul>
+          <li><b>制御工学</b> ・ 専攻として研究中</li>
+          <li><b>線形代数 / 確率統計</b> ・ プログラミングの土台として学習中</li>
+          <li><b>サーバ・公開まわり</b> ・ クラウドへのデプロイやHTTPS化を経験</li>
+          <li><b>英語</b> ・ 技術記事や資料を読むのに活用</li>
+        </ul>
+        <div class="cred">
+          <span class="chip">基本情報技術者</span>
+          <span class="chip">情報セキュリティマネジメント</span>
+          <span class="chip">ITパスポート</span>
+          <span class="chip">数学検定2級</span>
+          <span class="chip">TOEIC 860</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVITY -->
+  <section class="section">
+    <div class="label">ACTIVITY</div>
+    <div class="h2">学校での活動</div>
+    <p class="h2-note">つくることと同じくらい、人とプロジェクトを動かす役回りも多くやってきました。</p>
+    <div class="act">
+      <div class="act-item">
+        <div class="act-role">学生会 文化局長</div>
+        <div class="act-body">
+          <h3>文化発表会の企画・運営リーダー</h3>
+          <p>文化部の成果を学外に発表する行事で、企画書づくりから各団体への連絡、ポスター掲出のための市役所との調整まで担当しました。</p>
+        </div>
+      </div>
+      <div class="act-item">
+        <div class="act-role">高専祭 実行委員</div>
+        <div class="act-body">
+          <h3>90人規模のシフト作成・管理</h3>
+          <p>準備から当日・片付けまで、約90人分のシフトを組んで回しました。「手を動かす前に頭を使う」ことで、作業の効率がどれだけ変わるかを学びました。</p>
+        </div>
+      </div>
+      <div class="act-item">
+        <div class="act-role">クラス委員長</div>
+        <div class="act-body">
+          <h3>複数年にわたるクラスのとりまとめ</h3>
+          <p>委員長・副委員長を複数年。連絡や情報共有の仕組みを工夫し、「クラスに最も貢献した人物」に2年連続で選ばれました。</p>
+        </div>
+      </div>
+      <div class="act-item">
+        <div class="act-role">学外イベント</div>
+        <div class="act-body">
+          <h3>万博での発表サポート / 高専紹介イベント</h3>
+          <p>クラスメイトの発電靴プロジェクトの発表を、動画制作や技術面で手伝いました。小中学生向けに高専を紹介するイベントにも参加しています。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section">
+    <div class="contact">
+      <h2>お問い合わせ</h2>
+      <p>長期インターンに関心があります。制作物のコードやデモは、ご希望があればお見せできます。</p>
+      <div class="btn-row">
+        <a class="btn btn-fill" href="#">メールで連絡する</a>
+        <a class="btn btn-ghost" href="#">GitHub</a>
+      </div>
+      <div class="soon">※ 連絡先リンクは準備中です（後で設定します）</div>
+    </div>
+  </section>
+
+  <div class="note-band">
+    <b>メモ：</b>名前と連絡先は伏せた状態です。冒頭の見出し・各活動の文言・連絡先ボタンのリンク先は、あとから自由に差し替えられます。GitHub Pages（github.io）にこのファイルを <code>index.html</code> として置けば公開できます。<br><br><b>AnpiLinkについて：</b>本番サーバのIP・ドメイン・SSH手順・テストアカウント等は、安全のため一切載せていません。公開リポジトリにこれらが残っていないかも、一度確認しておくと安心です。
+  </div>
+
+  <footer>© Portfolio</footer>
+
+</div>
 </body>
 </html>
